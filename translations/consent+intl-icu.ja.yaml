@@ -1,0 +1,22 @@
+label: "クッキー"
+accepted: "クッキー：必要なものだけ"
+refused: "クッキー：拒否済み"
+text: "このサイトが保存するのは動作に必要なものだけです：セッション、言語、表示の設定。追跡や広告は一切ありません。{privacy, select, none {} other {<a href=\"{privacy}\">プライバシー</a>}}"
+implicit: "回答がない場合、{count} 秒後に同意したものとみなされます。"
+accept: "同意する"
+refuse: "拒否する"
+details: "選択する"
+save: "選択を保存"
+features:
+  user:
+    label: "サイトの動作"
+    description: "セッション、言語、テーマ、タイムゾーン。"
+  chat:
+    label: "チャット"
+    description: "チャット画面とそのクッキー（Crisp）。"
+  analytics:
+    label: "アクセス解析"
+    description: "訪問数を数えるための匿名ID。"
+  social:
+    label: "ソーシャルメディア"
+    description: "各サイトから読み込まれるInstagramの投稿と埋め込み動画。"

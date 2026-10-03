@@ -1,0 +1,22 @@
+label: "Cookies"
+accepted: "Cookies: only what is needed"
+refused: "Cookies: refused"
+text: "The site keeps only what makes it work: your session, your language, your preferences. No ads, no tracking.{privacy, select, none {} other { <a href=\"{privacy}\">Privacy</a>.}}"
+implicit: "With no answer from you, it counts as accepted in {count} s."
+accept: "Fine"
+refuse: "Refuse"
+details: "Choose"
+save: "Save my choices"
+features:
+  user:
+    label: "How the site works"
+    description: "Your session, language, theme and time zone."
+  chat:
+    label: "The chat"
+    description: "The chat window and its cookies (Crisp)."
+  analytics:
+    label: "Audience measurement"
+    description: "An anonymous identifier to count visits."
+  social:
+    label: "Social networks"
+    description: "Instagram posts and embedded videos, loaded from their sites."

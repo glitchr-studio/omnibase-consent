@@ -1,0 +1,82 @@
+/*
+ * omnibase/consent - the circle and its panel. Themed by custom properties a
+ * site sets anywhere above the circle (:root, its footer...):
+ *
+ *   --consent-ink        text                 --consent-soft     secondary text, the circle
+ *   --consent-bg         the panel            --consent-line     borders
+ *   --consent-accent     "accept"             --consent-on-accent its text
+ *   --consent-danger     a refused circle, the countdown's pop
+ *   --consent-hover      the circle under the pointer
+ *   --consent-radius     the panel's corners  --consent-font     the panel's font
+ *   --consent-shadow     the panel's shadow   --consent-size     the circle
+ */
+.ga-cookie {
+    --_ink: var(--consent-ink, #1c2b3a);
+    --_soft: var(--consent-soft, #66727f);
+    --_bg: var(--consent-bg, #fff);
+    --_line: var(--consent-line, rgba(28, 43, 58, .14));
+    --_accent: var(--consent-accent, #24447c);
+    --_on-accent: var(--consent-on-accent, #fff);
+    --_danger: var(--consent-danger, #c0392b);
+    --_hover: var(--consent-hover, rgba(28, 43, 58, .07));
+    --_radius: var(--consent-radius, 14px);
+    --_shadow: var(--consent-shadow, 0 12px 30px rgba(28, 43, 58, .16));
+    --_size: var(--consent-size, 2rem);
+    position: relative; display: inline-block; vertical-align: middle;
+}
+.ga-cookie-button {
+    display: inline-grid; place-items: center; width: var(--_size); height: var(--_size); padding: 0;
+    border: 0; border-radius: 50%; background: none; color: var(--_soft); cursor: pointer; font-size: calc(var(--_size) * .45);
+    transition: background .15s, color .15s;
+}
+.ga-cookie-button:hover, .ga-cookie-button:focus-visible { background: var(--_hover); color: var(--_ink); }
+.ga-cookie-icon { width: 55%; height: 55%; display: block; }
+.ga-cookie.is-refused .ga-cookie-button { color: var(--_danger); }
+
+.ga-cookie-panel {
+    position: absolute; bottom: calc(100% + .5rem); left: 0; z-index: 50;
+    width: min(18rem, calc(100vw - 2rem)); padding: .9rem 1rem; box-sizing: border-box;
+    border: 1px solid var(--_line); border-radius: var(--_radius); background: var(--_bg); color: var(--_ink);
+    box-shadow: var(--_shadow); font-family: var(--consent-font, inherit); font-size: .85rem; line-height: 1.5; font-weight: 400; font-style: normal; letter-spacing: normal; text-transform: none; text-align: left;
+}
+.ga-cookie-panel[hidden] { display: none; }
+.ga-cookie-panel p { margin: 0 0 .6rem; }
+.ga-cookie-panel a { color: inherit; text-decoration: underline; }
+.ga-cookie-implicit { font-size: .78rem; color: var(--_soft); }
+.ga-cookie:not(.is-floating) .ga-cookie-implicit { display: none; }  /* only an unanswered visitor accepts by waiting */
+.ga-cookie-count { display: inline-block; min-width: 1.4ch; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--_ink); }
+.ga-cookie-count.is-tick { animation: ga-cookie-tick .45s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes ga-cookie-tick { from { transform: scale(1.6); color: var(--_danger); } }
+
+.ga-cookie-actions { display: flex; gap: .5rem; }
+.ga-cookie-actions button {
+    flex: 1; min-height: 2rem; padding: .3rem .6rem; border: 1px solid var(--_line); border-radius: calc(var(--_radius) * .45);
+    background: transparent; color: var(--_ink); font: inherit; font-weight: 700; cursor: pointer;
+}
+.ga-cookie-actions .ga-cookie-accept { background: var(--_accent); border-color: var(--_accent); color: var(--_on-accent); }
+
+/* "Choisir": one switch per feature, the countdown stopped while choosing. */
+.ga-cookie-features { list-style: none; margin: 0 0 .7rem; padding: 0; display: grid; gap: .45rem; max-height: min(16rem, 45vh); overflow: auto; }
+.ga-cookie-features[hidden] { display: none; }
+.ga-cookie-feature label { display: grid; grid-template-columns: auto 1fr; gap: .1rem .55rem; align-items: start; cursor: pointer; }
+.ga-cookie-feature input { margin: .2rem 0 0; width: 1rem; height: 1rem; accent-color: var(--_accent); cursor: pointer; }
+.ga-cookie-feature input:disabled { cursor: not-allowed; opacity: .6; }
+.ga-cookie-feature-text { display: grid; }
+.ga-cookie-feature-text strong { font-weight: 700; }
+.ga-cookie-feature-text small { font-size: .78rem; color: var(--_soft); }
+.ga-cookie-feature-text small:empty { display: none; }
+.ga-cookie.is-choosing .ga-cookie-implicit { display: none; }
+.ga-cookie-more { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-top: .5rem; }
+.ga-cookie-more:has(> [hidden]:first-child + [hidden]) { display: none; }
+.ga-cookie-details { padding: 0; border: 0; background: none; color: var(--_soft); font: inherit; font-size: .8rem; text-decoration: underline; cursor: pointer; }
+.ga-cookie-details[aria-expanded="true"] { color: var(--_ink); }
+.ga-cookie-save { min-height: 1.8rem; padding: .25rem .7rem; border: 1px solid var(--_accent); border-radius: calc(var(--_radius) * .45); background: transparent; color: var(--_accent); font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+.ga-cookie-more [hidden] { display: none; }
+
+/* Not answered yet: the panel floats at the bottom of the screen, whatever is scrolled. */
+.ga-cookie.is-floating .ga-cookie-panel { position: fixed; left: 1rem; right: auto; top: auto; bottom: 1rem; z-index: 1500; width: min(22rem, calc(100vw - 2rem)); }
+@media (prefers-reduced-motion: no-preference) {
+    .ga-cookie.is-floating .ga-cookie-panel:not([hidden]) { animation: ga-cookie-in .4s cubic-bezier(.2, .9, .3, 1.2) both; }
+}
+@keyframes ga-cookie-in { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ga-cookie-count.is-tick { animation: none; } }

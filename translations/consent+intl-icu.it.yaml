@@ -1,0 +1,22 @@
+label: "I cookie"
+accepted: "Cookie: lo stretto necessario"
+refused: "Cookie: rifiutati"
+text: "Il sito conserva solo ciò che serve a farlo funzionare: la sessione, la lingua, le preferenze. Niente pubblicità, niente tracciamento.{privacy, select, none {} other { <a href=\"{privacy}\">Privacy</a>.}}"
+implicit: "Senza risposta, sarà accettato tra {count} s."
+accept: "Va bene"
+refuse: "Rifiuta"
+details: "Scegli"
+save: "Salva le mie scelte"
+features:
+  user:
+    label: "Il funzionamento del sito"
+    description: "La sessione, la lingua, il tema, il fuso orario."
+  chat:
+    label: "La chat"
+    description: "La finestra di chat e i suoi cookie (Crisp)."
+  analytics:
+    label: "Misurazione del pubblico"
+    description: "Un identificativo anonimo per contare le visite."
+  social:
+    label: "I social network"
+    description: "Post di Instagram e video incorporati, caricati dai loro siti."

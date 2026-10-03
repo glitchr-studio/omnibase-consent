@@ -1,0 +1,22 @@
+label: "Cookies"
+accepted: "Cookies: nur das Nötigste"
+refused: "Cookies: abgelehnt"
+text: "Die Seite speichert nur, was sie zum Funktionieren braucht: Ihre Sitzung, Ihre Sprache, Ihre Einstellungen. Keine Werbung, kein Tracking.{privacy, select, none {} other { <a href=\"{privacy}\">Datenschutz</a>.}}"
+implicit: "Ohne Antwort gilt es in {count} s als akzeptiert."
+accept: "Einverstanden"
+refuse: "Ablehnen"
+details: "Auswählen"
+save: "Auswahl speichern"
+features:
+  user:
+    label: "Der Betrieb der Seite"
+    description: "Ihre Sitzung, Ihre Sprache, Ihr Design, Ihre Zeitzone."
+  chat:
+    label: "Der Chat"
+    description: "Das Chatfenster und seine Cookies (Crisp)."
+  analytics:
+    label: "Reichweitenmessung"
+    description: "Eine anonyme Kennung, um Besuche zu zählen."
+  social:
+    label: "Soziale Netzwerke"
+    description: "Instagram-Beiträge und eingebettete Videos, von deren Seiten geladen."

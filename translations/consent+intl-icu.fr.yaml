@@ -1,0 +1,22 @@
+label: "Les cookies"
+accepted: "Cookies : le strict nécessaire"
+refused: "Cookies : refusés"
+text: "Le site ne garde que ce qui le fait marcher : votre session, votre langue, vos préférences. Pas de pub, pas de pistage.{privacy, select, none {} other { <a href=\"{privacy}\">Confidentialité</a>.}}"
+implicit: "Sans réponse de votre part, c'est accepté dans {count} s."
+accept: "D'accord"
+refuse: "Refuser"
+details: "Choisir"
+save: "Enregistrer mes choix"
+features:
+  user:
+    label: "Le fonctionnement du site"
+    description: "Votre session, votre langue, votre thème, votre fuseau horaire."
+  chat:
+    label: "La messagerie"
+    description: "La fenêtre de discussion et ses cookies (Crisp)."
+  analytics:
+    label: "La mesure d'audience"
+    description: "Un identifiant anonyme pour compter les visites."
+  social:
+    label: "Les réseaux sociaux"
+    description: "Les publications Instagram et les vidéos intégrées, chargées depuis leur site."

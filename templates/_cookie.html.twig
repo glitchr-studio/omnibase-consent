@@ -1,0 +1,47 @@
+{#
+ # The cookie answer (omnibase/consent): a small circle that opens a panel -
+ # what the site keeps, accept, refuse. A visitor who has not answered yet
+ # sees the panel float at the bottom of the screen, counted down
+ # (consent.countdown): no answer is a yes. Refused, @glitchr/cookie deletes
+ # the groups' cookies and refuses to write them again.
+ #
+ # {% include '@Consent/_cookie.html.twig' with {place: 'footer'} %}
+ #
+ #   place     tells two circles of a page apart (the panel's id: ga-cookie-<place>)
+ #   floating  false: this circle never floats by itself (another one of the page does)
+ #   icon      the circle's content (HTML); a cookie drawn in SVG by default
+ #
+ # Every feature that keeps cookies has its own switch under "Choisir": the
+ # site's own (consent.groups), those of consent.features (a chat, a
+ # measure of audience, Instagram...), and those scripts declare as they run
+ # (window.Consent.use()). D'accord turns them all on, Refuser all off, no
+ # answer only the site's own.
+ #
+ # Anything with `data-consent-open` (a "Cookies" link of a sitemap) opens the panel.
+ # The look: bundles/consent/css/consent.css, themed by --consent-* properties.
+ #}
+{% set _options = consent_options() %}
+{% set _id = 'ga-cookie-' ~ (place ?? 'footer') %}
+<link rel="stylesheet" href="{{ asset('bundles/consent/css/consent.css') }}">
+<div class="ga-cookie" data-consent data-consent-groups="{{ _options.groups|json_encode }}" data-consent-features="{{ _options.features|json_encode }}" data-consent-labels="{{ _options.labels|json_encode }}" data-consent-countdown="{{ _options.countdown }}" data-consent-erase="{{ _options.erase|json_encode }}"{% if (floating ?? true) is same as(false) %} data-consent-floating="false"{% endif %}>
+    <button type="button" class="ga-cookie-button" data-consent-toggle aria-expanded="false" aria-controls="{{ _id }}" aria-label="{{ '@consent.label'|trans }}"
+            data-accepted-label="{{ '@consent.accepted'|trans }}" data-refused-label="{{ '@consent.refused'|trans }}" title="{{ '@consent.accepted'|trans }}">
+        {%- if icon is defined -%}{{ icon|raw }}{%- else -%}
+        <svg class="ga-cookie-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5Zm-3.5 7a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm-5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg>
+        {%- endif -%}
+    </button>
+    <div class="ga-cookie-panel" id="{{ _id }}" role="dialog" aria-label="{{ '@consent.label'|trans }}" hidden>
+        <p class="ga-cookie-text">{{ '@consent.text'|trans({privacy: _options.privacy ?? 'none'})|raw }}</p>
+        <ul class="ga-cookie-features" aria-label="{{ '@consent.details'|trans }}" hidden></ul>
+        {% if _options.countdown > 0 %}<p class="ga-cookie-implicit">{{ '@consent.implicit'|trans({count: '<span class="ga-cookie-count">' ~ _options.countdown ~ '</span>'})|raw }}</p>{% endif %}
+        <div class="ga-cookie-actions">
+            <button type="button" class="ga-cookie-accept" data-consent-accept>{{ '@consent.accept'|trans }}</button>
+            <button type="button" class="ga-cookie-refuse" data-consent-refuse>{{ '@consent.refuse'|trans }}</button>
+        </div>
+        <div class="ga-cookie-more">
+            <button type="button" class="ga-cookie-details" data-consent-details aria-expanded="false" hidden>{{ '@consent.details'|trans }}</button>
+            <button type="button" class="ga-cookie-save" data-consent-save hidden>{{ '@consent.save'|trans }}</button>
+        </div>
+    </div>
+</div>
+<script src="{{ asset('bundles/consent/js/consent.js') }}" defer></script>

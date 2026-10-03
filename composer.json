@@ -1,0 +1,24 @@
+{
+    "name": "omnibase/consent",
+    "description": "The cookie answer of every omnibase site, in one place: a small circle, a panel, an implicit acceptance counted down, and the visitor's choice kept by @glitchr/cookie.",
+    "type": "symfony-bundle",
+    "license": "LGPL-3.0-or-later",
+    "authors": [{"name": "Marco Meyer", "email": "marco.meyer@glitchr.io"}],
+    "require": {
+        "php": "^8.2",
+        "glitchr/omnibase": "3.0.*-dev",
+        "symfony/config": "^6.0|^7.0|^8.0",
+        "symfony/dependency-injection": "^6.0|^7.0|^8.0",
+        "symfony/http-kernel": "^6.0|^7.0|^8.0",
+        "symfony/routing": "^6.0|^7.0|^8.0",
+        "twig/twig": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {"Base\\Consent\\": "./src"}
+    },
+    "autoload-dev": {
+        "psr-4": {"Base\\Consent\\Tests\\": "./tests"}
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
