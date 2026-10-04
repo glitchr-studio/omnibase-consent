@@ -112,7 +112,18 @@ window.Consent.state('CHAT')    // true | false | null (not answered)
 window.Consent.enabled('CHAT')  // what to do now: an implicit feature is on until refused
 window.Consent.features()       // every feature, its label and state
 window.Consent.refused()        // the site's own cookies refused, e.g. before writing a preference
-window.Consent.accept(); window.Consent.refuse(); window.Consent.open();
+window.Consent.accept(); window.Consent.refuse(); window.Consent.open(); window.Consent.close();
 window.addEventListener('consent:change', (e) => e.detail.features); // {USER: true, CHAT: false...}
 document.addEventListener('chat:consent', () => {});               // a feature just turned on
+```
+
+A circle may leave the page, or lose its panel, between two calls - a page
+swap empties the bar it sat in, a script rebuilds the footer. Nothing here
+throws then: an answer is still recorded, `open()` and `close()` do nothing
+when there is no panel to act on.
+
+## Tests
+
+```bash
+npm install && npm test     # node --test, on jsdom: tests/js/consent.test.mjs
 ```

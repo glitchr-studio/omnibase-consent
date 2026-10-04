@@ -35,7 +35,7 @@
  *   Consent.use(name, options, onEnable, onDisable)
  *   Consent.cookie(group, name, value, expires)   Cookie.set() through the answer
  *   Consent.undecided()  Consent.refused()  Consent.accepted()   (the site's own feature)
- *   Consent.accept()  Consent.refuse()  Consent.open()  Consent.features()
+ *   Consent.accept()  Consent.refuse()  Consent.open()  Consent.close()  Consent.features()
  *
  * Every answer dispatches `consent:change` on window ({detail: {consent,
  * groups, features}}), `ga:cookie` for the sites written before this bundle,
@@ -115,7 +115,10 @@
 
     // ── The panel ───────────────────────────────────────────────────
 
-    function panel(widget) { return widget.querySelector('.ga-cookie-panel'); }
+    // A circle may have lost its panel, or be gone itself, by the time it is
+    // asked something: a page swap empties the bar it sat in, a script rebuilds
+    // a footer. Every function below takes that for an answer, not an error.
+    function panel(widget) { return widget ? widget.querySelector('.ga-cookie-panel') : null; }
 
     /** On screen for the visitor: not in a hidden footer, a folded bar (display, visibility, opacity). */
     function visible(element) {
@@ -129,18 +132,31 @@
         var connected = widgets.filter(function (w) { return w.isConnected; });
         return connected.filter(visible)[0] || connected[0];
     }
-    function button(widget) { return widget.querySelector('[data-consent-toggle]'); }
+    function button(widget) { return widget ? widget.querySelector('[data-consent-toggle]') : null; }
+
+    /** Open (true) or closed: a circle without its panel is closed. */
+    function shown(widget) {
+        var p = panel(widget);
+        return !!p && !p.hidden;
+    }
 
     function open(widget) {
         widget = widget || front();
-        if (!widget) return;
-        panel(widget).hidden = false;
-        button(widget).setAttribute('aria-expanded', 'true');
+        var p = panel(widget);
+        if (!p) return;
+        p.hidden = false;
+        var b = button(widget);
+        if (b) b.setAttribute('aria-expanded', 'true');
     }
 
+    /** Closes a circle's panel - the visible one when none is named. Nothing to close is not an error. */
     function close(widget) {
-        panel(widget).hidden = true;
-        button(widget).setAttribute('aria-expanded', 'false');
+        widget = widget || front();
+        if (!widget) return;
+        var p = panel(widget);
+        if (p) p.hidden = true;
+        var b = button(widget);
+        if (b) b.setAttribute('aria-expanded', 'false');
         choosing(widget, false);
     }
 
@@ -198,7 +214,7 @@
         var refused = state() === false;
         widget.classList.toggle('is-refused', refused);
         var b = button(widget);
-        b.title = b.dataset[refused ? 'refusedLabel' : 'acceptedLabel'] || '';
+        if (b) b.title = b.dataset[refused ? 'refusedLabel' : 'acceptedLabel'] || '';
         rows(widget);
     }
 
@@ -397,7 +413,7 @@
             var first = floating && floating.isConnected ? floating : front();
             if (!first) return;
             // Floating, it stays open: the link is not an answer.
-            if (first.classList.contains('is-floating') || panel(first).hidden) open(first); else close(first);
+            if (first.classList.contains('is-floating') || !shown(first)) open(first); else close(first);
             return;
         }
         if (!widget) {
@@ -415,7 +431,7 @@
             return decide(map);
         }
         if (target.closest('[data-consent-toggle]')) {
-            panel(widget).hidden ? open(widget) : close(widget);
+            shown(widget) ? close(widget) : open(widget);
         }
     });
 
@@ -440,6 +456,7 @@
         accept: function () { decide(choice(function () { return true; })); },
         refuse: function () { decide(choice(function () { return false; })); },
         open: function () { open(); },
+        close: function () { widgets.slice().forEach(function (w) { if (!w.classList.contains('is-floating')) close(w); }); },
         scan: scan
     };
 

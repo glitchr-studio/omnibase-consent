@@ -1,0 +1,12 @@
+{
+  "name": "@omnibase/consent",
+  "private": true,
+  "description": "The tests of public/js/consent.js; the bundle itself is installed with Composer and has no build step.",
+  "license": "LGPL-3.0-or-later",
+  "scripts": {
+    "test": "node --test \"tests/js/*.test.mjs\""
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.0"
+  }
+}
