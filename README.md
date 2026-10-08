@@ -127,3 +127,7 @@ when there is no panel to act on.
 ```bash
 npm install && npm test     # node --test, on jsdom: tests/js/consent.test.mjs
 ```
+
+## License
+
+MIT since 2026-10-09; earlier versions remain published under LGPL-3.0-or-later.
